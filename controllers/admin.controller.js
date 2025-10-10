@@ -385,7 +385,7 @@ export const getAllUsers = async (req, res) => {
       },
     ]);
 
-    res.status(200).json(users);
+    res.status(200).json([]);
   } catch (error) {
     console.error("Error fetching all users:", error);
     res.status(500).json({ message: "Server error" });
