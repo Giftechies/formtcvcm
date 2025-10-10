@@ -344,7 +344,7 @@ export const getAllUsers = async (req, res) => {
     const users = await User.aggregate([
       {
         $addFields: {
-          fullName: { $concat: [  "$lastName" , " ","$firstName"] },
+          fullName: { $concat: ["$firstName", " ", "$lastName"] },
           joinedEventsCount: {
             $cond: {
               if: { $isArray: "$joinedEvents" },
