@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
+  // 🧾 OLD FIELDS (kept for backward compatibility)
   name: {
     type: String,
-    required: true,
   },
   email: {
     type: String,
+    required: true,
   },
   sex: {
     type: String,
@@ -17,6 +18,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
+    required: true,
   },
   joinedEvents: {
     type: [mongoose.Schema.Types.ObjectId],
@@ -25,6 +27,37 @@ const userSchema = new mongoose.Schema({
   accountBanned: {
     type: Boolean,
     default: false,
+  },
+
+  // 🌟 NEW FIELDS (from new form)
+  lastName: {
+    type: String,
+    trim: true,
+  },
+  firstName: {
+    type: String,
+    trim: true,
+  },
+  organisation: {
+    type: String,
+    trim: true,
+  },
+  title: {
+    type: String,
+    trim: true,
+  },
+  telephone: {
+    type: String,
+    trim: true,
+  },
+  member: {
+    type: String,
+    enum: ["yes", "no"],
+    default: "no",
+  },
+  allergies: {
+    type: String,
+    trim: true,
   },
 });
 

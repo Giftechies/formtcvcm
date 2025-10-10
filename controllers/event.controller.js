@@ -48,15 +48,41 @@ export const getEventById = async (req, res) => {
   }
 };
 
+// export const createEvent = async (req, res) => {
+//   try {
+//     const { title, description, image, youtubeLink, date, time, published } =
+//       req.body;
+
+//     const newEvent = new Event({
+//       title,
+//       description,
+//       image,
+//       youtubeLink,
+//       date,
+//       time,
+//       published: published !== undefined ? published : true,
+//     });
+
+//     const savedEvent = await newEvent.save();
+//     res.status(201).json(savedEvent);
+//   } catch (error) {
+//     console.error("Error creating event:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
 export const createEvent = async (req, res) => {
   try {
-    const { title, description, image, youtubeLink, date, time, published } =
-      req.body;
+    const { title, description, image, youtubeLink, date, time, published } = req.body;
+
+    // validate file type (optional, can also be done in frontend)
+    if (image && !image.startsWith("data:image/") && !image.startsWith("data:application/pdf")) {
+      return res.status(400).json({ message: "Invalid file format. Only image or PDF allowed." });
+    }
 
     const newEvent = new Event({
       title,
       description,
-      image,
+      image, // now this can hold base64 image OR base64 PDF
       youtubeLink,
       date,
       time,
