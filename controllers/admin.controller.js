@@ -298,11 +298,53 @@ export const banUser = async (req, res) => {
   }
 };
 
+// export const getAllUsers = async (req, res) => {
+//   try {
+//     const users = await User.aggregate([
+//       {
+//         $addFields: {
+//           joinedEventsCount: {
+//             $cond: {
+//               if: { $isArray: "$joinedEvents" },
+//               then: { $size: "$joinedEvents" },
+//               else: 0,
+//             },
+//           },
+//             fullName: { $concat: ["$firstName", " ", "$lastName"] },
+//         },
+//       },
+//       {
+//         $project: {
+//           _id: 1,
+//           name: 1,
+//           fullName,
+//           email: 1,
+//           age: 1,
+//           sex: 1,
+//           organisation: 1,       // new field
+//           title: 1,              // new field
+//           accountBanned: 1,
+//           joinedEventsCount: 1,
+//         },
+//       },
+//       {
+//         $sort: { name: 1 },
+//       },
+//     ]);
+
+//     res.status(200).json(users);
+//   } catch (error) {
+//     console.error("Error fetching all users:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.aggregate([
       {
         $addFields: {
+          fullName: { $concat: ["$firstName", " ", "$lastName"] },
           joinedEventsCount: {
             $cond: {
               if: { $isArray: "$joinedEvents" },
@@ -310,21 +352,36 @@ export const getAllUsers = async (req, res) => {
               else: 0,
             },
           },
+          // optional: default values if some fields are missing
+          organisation: { $ifNull: ["$organisation", "N/A"] },
+          title: { $ifNull: ["$title", "N/A"] },
+          age: { $ifNull: ["$age", "N/A"] },
+          sex: { $ifNull: ["$sex", "N/A"] },
+          telephone: { $ifNull: ["$telephone", "N/A"] },
+          member: { $ifNull: ["$member", "N/A"] },
+          allergies: { $ifNull: ["$allergies", "N/A"] },
         },
       },
       {
         $project: {
           _id: 1,
-          name: 1,
+          firstName: 1,
+          lastName: 1,
+          fullName: 1,
           email: 1,
           age: 1,
           sex: 1,
+          organisation: 1,
+          title: 1,
+          telephone: 1,
+          member: 1,
+          allergies: 1,
           accountBanned: 1,
           joinedEventsCount: 1,
         },
       },
       {
-        $sort: { name: 1 },
+        $sort: { fullName: 1 },
       },
     ]);
 
@@ -369,6 +426,7 @@ export const getUsersByEvent = async (req, res) => {
         $project: {
           _id: 1,
           name: 1,
+          
           email: 1,
           age: 1,
           sex: 1,
