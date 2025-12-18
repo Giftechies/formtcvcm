@@ -8,8 +8,8 @@ export const updateProfile = async (req, res) => {
   try {
     const {
       // name, // old schema
-      firstName,
-      lastName,
+      firstname,
+      lastname,
       email,
       organisation,
       title,
@@ -21,7 +21,7 @@ export const updateProfile = async (req, res) => {
     } = req.body;
 
     // Check required fields (based on new or old format)
-    if (!firstName  || !email) {
+    if (!firstname  || !email) {
       return res
         .status(400)
         .json({ message: "Le nom et l'email sont requis" });
@@ -46,8 +46,8 @@ export const updateProfile = async (req, res) => {
       // age: age || undefined,
       // sex: sex || undefined,
       // --- New schema fields ---
-      firstName: firstName || undefined,
-      lastName: lastName || undefined,
+      firstName: firstname || undefined,
+      lastName: lastname || undefined,
       organisation: organisation || undefined,
       title: title || undefined,
       telephone: telephone || undefined,
