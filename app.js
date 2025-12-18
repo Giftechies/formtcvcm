@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename);
 
 app.use(
   cors({
-    origin: ["https://formulaires-tcvcm.ca", "http://localhost:5500","https://tcvcm.ca/"],
+    origin: ["https://formulaires-tcvcm.ca", "http://localhost:5500","https://tcvcm.ca/",'tcvcm.ca'],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
