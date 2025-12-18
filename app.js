@@ -18,12 +18,14 @@ const __dirname = path.dirname(__filename);
 app.use(
   cors({
     origin: ["https://formulaires-tcvcm.ca", "http://localhost:5500","https://tcvcm.ca",'tcvcm.ca'],
+
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     exposedHeaders: ["user-logged-in", "set-cookie"],
   })
 );
+
 app.use(express.json({limit:"3mb"}));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
